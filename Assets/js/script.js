@@ -1,15 +1,16 @@
 
 // Step 1: Capture the form and input field in variables
-var form = document.querySelector('form');
-var cityInput = document.querySelector('#city-input');
-var weatherAPIKey = "3fd880ba2b2dddad67ff92df579cd3f7";
+var formEl = document.querySelector('#search-form');
+var cityInputEl = document.querySelector('#city-input');
+var searchHistory= document.querySelector('#search-history');
+var weatherAPIKey = "7bf1bc8896b2490b467308927aa00c20";
 
 // Step 2: Add an event listener to the form
-form.addEventListener('submit', function(event) {
+formEl.addEventListener('submit', function(event) {
   event.preventDefault();
 
   // Step 3: Retrieve the city name from the input field
-  var cityName = cityInput.value;
+  var cityName = cityInputEl.value;
 
   // Step 4: Make an API request to retrieve weather data for the city
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${weatherAPIKey}`)
@@ -80,6 +81,9 @@ form.addEventListener('submit', function(event) {
 });
 
 // Step 8: Add an event listener to the search history items
+
+
+
 // When a search history item is clicked, repeat steps 3-5 to display the weather conditions for that city
 
 //This code uses the fetch function to make an API request to retrieve weather data for the city entered in the input field. The retrieved data is then used to display the current weather conditions on the page. The searched city is stored in the search history, which is displayed on the page. When a search history item is cli
