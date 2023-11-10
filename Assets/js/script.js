@@ -10,6 +10,7 @@ var weatherAPIKey = "7bf1bc8896b2490b467308927aa00c20";
 function handleFormSubmit(event) {
   event.preventDefault();
 
+
   // Get the value of the city input
   var city = cityInputEl.val().trim();
 
@@ -17,6 +18,7 @@ function handleFormSubmit(event) {
   if (city === '') {
     return;
   }
+
 
   // Clear the city input
   cityInputEl.val('');
@@ -82,7 +84,7 @@ function fetchFutureWeather(city) {
     var forecastList = response.list;
 
     // Loop through the forecast list and display each forecast
-    for (var i = 0; i < forecastList.length; i++) {
+    for (var i = 0; i < 5; i++) {
       var forecast = forecastList[i];
       var date = new Date(forecast.dt * 1000);
       var icon = forecast.weather[0].icon;
