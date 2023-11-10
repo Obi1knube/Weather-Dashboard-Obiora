@@ -1,89 +1,110 @@
 
 // Step 1: Capture the form and input field in variables
-var formEl = document.querySelector('#search-form');
-var cityInputEl = document.querySelector('#city-input');
-var searchHistory= document.querySelector('#search-history');
+var formEl = $('#search-form');
+var cityInputEl = $('#city-input');
+var currenWeatherEl =$('#current-weather');
+var futureWeatherEl=$('#future-forcast');
+var searchHistory= $('#search-history');
 var weatherAPIKey = "7bf1bc8896b2490b467308927aa00c20";
-
-// Step 2: Add an event listener to the form
-formEl.addEventListener('submit', function(event) {
+// Function to handle form submission
+function handleFormSubmit(event) {
   event.preventDefault();
 
-  // Step 3: Retrieve the city name from the input field
-  var cityName = cityInputEl.value;
+  // Get the value of the city input
+  var city = cityInputEl.val().trim();
 
-  // Step 4: Make an API request to retrieve weather data for the city
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${weatherAPIKey}`)
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      // Step 5: Use the retrieved data to display the current weather conditions on the page
-      var weather = data.weather[0].description;
-      var temperature = data.main.temp;
-      var humidity = data.main.humidity;
-      var windSpeed = data.wind.speed;
+  // Check if the city is empty
+  if (city === '') {
+    return;
+  }
 
-      // Display the weather conditions on the page
-      var weatherInfo = document.querySelector('#weather-info');
-      weatherInfo.innerHTML = `
-        <p>Weather: ${weather}</p>
-        <p>Temperature: ${temperature}°C</p>
-        <p>Humidity: ${humidity}%</p>
-        <p>Wind Speed: ${windSpeed} m/s</p>
-      `;
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+  // Clear the city input
+  cityInputEl.val('');
 
-  // Step 6: Store the searched city in the search history
-  var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-  searchHistory.push(cityName);
-  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+  // Save the city to the search history
+  saveSearchHistory(city);
 
-  // Step 7: Display the search history on the page and add event listeners to the search history items
-  var searchHistoryList = document.querySelector('#search-history');
-  searchHistoryList.innerHTML = '';
-  searchHistory.forEach(function(city) {
-    var listItem = document.createElement('li');
-    listItem.textContent = city;
-    searchHistoryList.appendChild(listItem);
+  // Fetch current weather data
+  fetchCurrentWeather(city);
 
-    // Add event listener to the search history items
-    listItem.addEventListener('click', function() {
-      // Repeat steps 3-5 to display the weather conditions for that city
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}`)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          // Use the retrieved data to display the current weather conditions on the page
-          var weather = data.weather[0].description;
-          var temperature = data.main.temp;
-          var humidity = data.main.humidity;
-          var windSpeed = data.wind.speed;
+  // Fetch future weather forecast
+  fetchFutureWeather(city);
+}
 
-          // Display the weather conditions on the page
-          var weatherInfo = document.querySelector('#weather-info');
-          weatherInfo.innerHTML = `
-            <p>Weather: ${weather}</p>
-            <p>Temperature: ${temperature}°C</p>
-            <p>Humidity: ${humidity}%</p>
-            <p>Wind Speed: ${windSpeed} m/s</p>
-          `;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    });
+// Function to save the city to the search history
+function saveSearchHistory(city) {
+  // Create a new list item
+  var listItem = $('<li>').text(city);
+
+  // Append the list item to the search history
+  searchHistory.append(listItem);
+}
+
+// Function to fetch current weather data
+function fetchCurrentWeather(city) {
+  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}`;
+
+  // Make a GET request to the weather API
+  $.ajax({
+    url: currentWeatherAPI,
+    method: 'GET'
+  }).then(function(response) {
+    // Process the response and display current weather conditions
+    var cityName = response.name;
+    var date = new Date(response.dt * 1000);
+    var icon = response.weather[0].icon;
+    var temperature = response.main.temp;
+    var humidity = response.main.humidity;
+    var windSpeed = response.wind.speed;
+
+    // Update the current weather element with the retrieved data
+    currenWeatherEl.text(`
+      City: ${cityName}
+      Date: ${date}
+      Icon: ${icon}
+      Temperature: ${temperature}
+      Humidity: ${humidity}
+      Wind Speed: ${windSpeed}
+    `);
   });
-});
+}
 
-// Step 8: Add an event listener to the search history items
+// Function to fetch future weather forecast
+function fetchFutureWeather(city) {
+  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}`;
 
+  // Make a GET request to the weather API
+  $.ajax({
+    url: futureWeatherAPI,
+    method: 'GET'
+  }).then(function(response) {
+    // Process the response and display future weather forecast
+    var forecastList = response.list;
 
+    // Loop through the forecast list and display each forecast
+    for (var i = 0; i < forecastList.length; i++) {
+      var forecast = forecastList[i];
+      var date = new Date(forecast.dt * 1000);
+      var icon = forecast.weather[0].icon;
+      var temperature = forecast.main.temp;
+      var humidity = forecast.main.humidity;
+      var windSpeed = forecast.wind.speed;
 
-// When a search history item is clicked, repeat steps 3-5 to display the weather conditions for that city
+      // Create a new forecast element
+      var forecastElement = $('<div>').text(`
+        Date: ${date}
+        Icon: ${icon}
+        Temperature: ${temperature}
+        Humidity: ${humidity}
+        Wind Speed: ${windSpeed}
+      `);
 
-//This code uses the fetch function to make an API request to retrieve weather data for the city entered in the input field. The retrieved data is then used to display the current weather conditions on the page. The searched city is stored in the search history, which is displayed on the page. When a search history item is cli
+      // Append the forecast element to the future weather element
+      futureWeatherEl.append(forecastElement);
+    }
+  });
+}
+
+// Event listener for form submission
+formEl.on('submit', handleFormSubmit);
+

@@ -5,18 +5,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather Dashboard</title>
-<link rel="stylesheet" href="./Assets/CSS/style.css" /> 
+  <link rel="stylesheet" href="./Assets/css/reset.css" /> 
+  <link rel="stylesheet" href="./Assets/CSS/style.css" /> 
 </head>
 <body>
   <div>
     <h1 class="header">Weather Dashboard</h1>
     <form id="search-form" class="form w-100">
+      <h3>Search for a city</h3>
       <input id="city-input" class="form-input w-100" type="text" placeholder="City name">
-      <button class="btn btn-info btn-block">Submit</button>
+      <button type="submit">submit</button>
     </form>
   </div>
-  <div id="weather-info"></div>
-  <ul id="search-history"></ul>
+  <div id="weather-info-Box-1">
+    <h3 id="current-weather" > </h3>
+    <h3 id="future-forcast"></h3>
+  </div>
+  
+  <ul id="search-history">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+  </ul>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+       crossorigin="anonymous"></script>
+
+   <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+
   <script src="./assets/js/script.js"></script>
 </body>
 </html>
