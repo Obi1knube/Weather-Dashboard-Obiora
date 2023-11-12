@@ -41,7 +41,7 @@ function saveSearchHistory(city) {
 
 // Function to fetch current weather data
 function fetchCurrentWeather(city) {
-  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}`;
+  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}&units=metric`;
 
   // Make a GET request to the weather API
   $.ajax({
@@ -70,7 +70,7 @@ function fetchCurrentWeather(city) {
 
 // Function to fetch future weather forecast
 function fetchFutureWeather(city) {
-  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}`;
+  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}&units=metric`;
 
   // Make a GET request to the weather API
   $.ajax({
@@ -79,7 +79,8 @@ function fetchFutureWeather(city) {
   }).then(function(response) {
     // Process the response and display future weather forecast
     var forecastList = response.list;
-
+    
+console.log(response);
     // Loop through the forecast list and display each forecast
     for (var i = 0; i < 5; i++) {
       var forecast = forecastList[i];
