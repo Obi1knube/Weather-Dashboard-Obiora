@@ -79,10 +79,12 @@ function fetchFutureWeather(city) {
   }).then(function(response) {
     // Process the response and display future weather forecast
     var forecastList = response.list;
-    
-console.log(response);
+
+    //displays information that I can use for the iteration and decide which times to display weather
+console.log(response); 
+
     // Loop through the forecast list and display each forecast
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < forecastList.length; i++) {
       var forecast = forecastList[i];
       var date = new Date(forecast.dt * 1000);
       var icon = forecast.weather[0].icon;

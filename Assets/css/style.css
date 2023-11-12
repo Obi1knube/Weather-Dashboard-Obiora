@@ -8,6 +8,12 @@ header{
     background-color: blue;
     color: white;
 }
+ button, input{
+        width: 25%;
+        margin: 2% 0;
+        padding: 1%;
+         }   
+    
 /* media query for larger screens */
 @media screen and (min-width: 992px) {
     header {
