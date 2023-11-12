@@ -1,15 +1,13 @@
-
-// Step 1: Capture the form and input field in variables
 var formEl = $('#search-form');
 var cityInputEl = $('#city-input');
-var currenWeatherEl =$('#current-weather');
-var futureWeatherEl=$('#future-forcast');
-var searchHistory= $('#search-history');
+var currentWeatherEl = $('#current-weather');
+var futureWeatherEl = $('.future-forecast');
+var searchHistory = $('.search-history');
 var weatherAPIKey = "7bf1bc8896b2490b467308927aa00c20";
+
 // Function to handle form submission
 function handleFormSubmit(event) {
   event.preventDefault();
-
 
   // Get the value of the city input
   var city = cityInputEl.val().trim();
@@ -18,7 +16,6 @@ function handleFormSubmit(event) {
   if (city === '') {
     return;
   }
-
 
   // Clear the city input
   cityInputEl.val('');
@@ -60,7 +57,7 @@ function fetchCurrentWeather(city) {
     var windSpeed = response.wind.speed;
 
     // Update the current weather element with the retrieved data
-    currenWeatherEl.text(`
+    currentWeatherEl.text(`
       City: ${cityName}
       Date: ${date}
       Icon: ${icon}
@@ -103,10 +100,11 @@ function fetchFutureWeather(city) {
 
       // Append the forecast element to the future weather element
       futureWeatherEl.append(forecastElement);
+
+      console.log(futureWeatherEl);
     }
   });
 }
 
 // Event listener for form submission
 formEl.on('submit', handleFormSubmit);
-
