@@ -4,6 +4,8 @@ var currentWeatherEl = $('#current-weather');
 var futureWeatherEl = $('.future-forecast');
 var searchHistory = $('.search-history');
 var weatherAPIKey = "7bf1bc8896b2490b467308927aa00c20";
+//var saveSearchHistory=[];
+
 
 // Function to handle form submission
 function handleFormSubmit(event) {
@@ -84,7 +86,7 @@ function fetchFutureWeather(city) {
 console.log(response); 
 
     // Loop through the forecast list and display each forecast
-    for (var i = 0; i < forecastList.length; i++) {
+    for (var i = 0; i < forecastList.length; i+=9) {
       var forecast = forecastList[i];
       var date = new Date(forecast.dt * 1000);
       var icon = forecast.weather[0].icon;
