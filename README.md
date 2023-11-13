@@ -79,5 +79,11 @@ form.addEventListener('submit', function(event) {
 });
 
 // Step 8: Add an event listener to the search history items
-// When a search history item is clicked, repeat steps 3-5 to display the weather conditions for that city
+// When a search history item is clicked, repeat steps 3-5 to display the weather conditions for that city.
+
+Here is a link to the project deployed  website:
+https://obi1knube.github.io/Weather-Dashboard-Obiora/
+The code can be found here :'https://github.com/Obi1knube/Weather-Dashboard-Obiora
+
+
 
