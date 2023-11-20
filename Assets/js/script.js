@@ -2,10 +2,11 @@ var formEl = $('#search-form');
 var cityInputEl = $('#city-input');
 var currentWeatherEl = $('#current-weather');
 var futureWeatherEl = $('.future-forecast');
-var searchHistory = $('.search-history');
+var searchHistoryEl = $('.search-history');
 var weatherAPIKey = "7bf1bc8896b2490b467308927aa00c20";
-//var saveSearchHistory=[];
 
+// Load the search history from local storage
+var savedSearchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
 // Function to handle form submission
 function handleFormSubmit(event) {
@@ -34,16 +35,32 @@ function handleFormSubmit(event) {
 
 // Function to save the city to the search history
 function saveSearchHistory(city) {
-  // Create a new list item
-  var listItem = $('<li>').text(city);
+  // Add the city to the saved search history
+  savedSearchHistory.push(city);
 
-  // Append the list item to the search history
-  searchHistory.append(listItem);
+  // Save the updated search history to local storage
+  localStorage.setItem('searchHistory', JSON.stringify(savedSearchHistory));
+
+  // Print the search history on the page
+  printSearchHistory();
+}
+
+// Function to print the search history on the page
+function printSearchHistory() {
+  // Clear the search history element
+  searchHistoryEl.empty();
+
+  // Loop through the saved search history and create list items
+  for (var i = 0; i < savedSearchHistory.length; i++) {
+    var city = savedSearchHistory[i];
+    var listItem = $('<li>').text(city);
+    searchHistoryEl.append(listItem);
+  }
 }
 
 // Function to fetch current weather data
 function fetchCurrentWeather(city) {
-  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}&units=metric`;
+  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}&units=imperial`;
 
   // Make a GET request to the weather API
   $.ajax({
@@ -72,7 +89,7 @@ function fetchCurrentWeather(city) {
 
 // Function to fetch future weather forecast
 function fetchFutureWeather(city) {
-  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}&units=metric`;
+  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}&units=imperial`;
 
   // Make a GET request to the weather API
   $.ajax({
@@ -82,34 +99,49 @@ function fetchFutureWeather(city) {
     // Process the response and display future weather forecast
     var forecastList = response.list;
 
-    //displays information that I can use for the iteration and decide which times to display weather
-console.log(response); 
+    // Clear the future weather element
+    futureWeatherEl.empty();
 
     // Loop through the forecast list and display each forecast
-    for (var i = 0; i < forecastList.length; i+=9) {
+    for (var i = 0; i < forecastList.length; i += 7) {
       var forecast = forecastList[i];
       var date = new Date(forecast.dt * 1000);
       var icon = forecast.weather[0].icon;
       var temperature = forecast.main.temp;
       var humidity = forecast.main.humidity;
       var windSpeed = forecast.wind.speed;
+      var iconUrl = `http://openweathermap.org/img/w/${icon}.png`;
+      var iconImage = $(`<img src=${iconUrl} >`);
 
       // Create a new forecast element
       var forecastElement = $('<div>').text(`
         Date: ${date}
-        Icon: ${icon}
         Temperature: ${temperature}
         Humidity: ${humidity}
         Wind Speed: ${windSpeed}
       `);
 
+      forecastElement.append(iconImage);
+      forecastElement.addClass('card');
+
       // Append the forecast element to the future weather element
       futureWeatherEl.append(forecastElement);
-
-      console.log(futureWeatherEl);
     }
   });
 }
 
 // Event listener for form submission
 formEl.on('submit', handleFormSubmit);
+
+// Print the search history
+
+$('#clearSearchHistory').on('click', function() {
+  // Clear the saved search history
+  savedSearchHistory = [];
+
+  // Clear the search history in local storage
+  localStorage.removeItem('searchHistoryEl');
+
+  // Clear the search history display
+  printSearchHistory();
+});

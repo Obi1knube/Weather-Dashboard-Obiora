@@ -1,22 +1,47 @@
 :root{
-    --white:var(--white);
-    --dark-blue:var(--dark-blue);
-    border-radius: 50px;
+  --white:var(--white);
+  --dark-blue:var(--dark-blue);
+  border-radius: 50px;
 
 }
 header{
-    background-color: blue;
-    color: white;
+  background-color: blue;
+  color: white;
 }
  button, input{
-        width: 25%;
-        margin: 2% 0;
-        padding: 1%;
-         }   
+      width: 25%;
+      margin: 2% 0;
+      padding: 1%;
+       }   
+  
+  .cards {
+      display: flex;
+      flex-direction: row;
+              
+    }
+    div.card{
+      display: flex;
+      flex-direction: row;
+      background-color: blue;
+      text-align: justify;
+      color: white;
+    }
     
+    .card {
+      display: flex;
+      width: 20%;
+      
+    }
+    
+    .card img {
+      flex: content;
+             width: 30%;
+      height: 70%;
+    }
+
 /* media query for larger screens */
 @media screen and (min-width: 992px) {
-    header {
-      width: 75%;
-    }
+  header {
+    width: 75%;
+  }
 }
