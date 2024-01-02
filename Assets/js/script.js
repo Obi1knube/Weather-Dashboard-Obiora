@@ -60,7 +60,7 @@ function printSearchHistory() {
 
 // Function to fetch current weather data
 function fetchCurrentWeather(city) {
-  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}&units=imperial`;
+  var currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherAPIKey}&units=metric`;
 
   // Make a GET request to the weather API
   $.ajax({
@@ -89,7 +89,7 @@ function fetchCurrentWeather(city) {
 
 // Function to fetch future weather forecast
 function fetchFutureWeather(city) {
-  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}&units=imperial`;
+  var futureWeatherAPI = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}&units=metric`;
 
   // Make a GET request to the weather API
   $.ajax({
